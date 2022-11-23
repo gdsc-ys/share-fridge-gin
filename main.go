@@ -16,6 +16,7 @@ func main() {
 	{
 		user.GET("/:type/:id", controller.ReadUser)
 		user.POST("", controller.CreateUser)
+		user.GET("/:type/:id/favorite", controller.ReadUserFavorite)
 		user.PUT("/:type/:id/favorite", controller.UpdateUserFavorite)
 	}
 

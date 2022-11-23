@@ -44,6 +44,21 @@ func CreateUser(c *gin.Context) {
 	})
 }
 
+func ReadUserFavorite(c *gin.Context) {
+	user := model.User{}
+
+	if err := model.DB.Model(&user).Where("id = ? AND type = ?", c.Param("id"), c.Param("type")).Association("Fridges").Find(&user.Fridges); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": user,
+	})
+}
+
 func UpdateUserFavorite(c *gin.Context) {
 	user := model.User{}
 
@@ -54,7 +69,7 @@ func UpdateUserFavorite(c *gin.Context) {
 		return
 	}
 
-	if err := model.DB.Model(&user).Association("Fridges").Replace(user.Fridges); err != nil {
+	if err := model.DB.Model(&user).Where("id = ? AND type = ?", c.Param("id"), c.Param("type")).Association("Fridges").Replace(user.Fridges); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
