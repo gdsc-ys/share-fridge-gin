@@ -7,4 +7,5 @@ type Food struct {
 	ExpirationDate string `json:"expiration_date"`
 	Image          string `json:"image"`
 	Sharer         string `json:"sharer"`
+    Fridge         string `json:"fridge"`
 }
