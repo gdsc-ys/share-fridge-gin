@@ -7,6 +7,21 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func ReadAllFood(c *gin.Context) {
+	food := []model.Food{}
+
+	if err := model.DB.Find(&food).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": food,
+	})
+}
+
 func ReadFood(c *gin.Context) {
 	food := model.Food{}
 
@@ -24,6 +39,7 @@ func ReadFood(c *gin.Context) {
 
 func CreateFood(c *gin.Context) {
 	food := model.Food{}
+    
 	if err := c.ShouldBind(&food); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),

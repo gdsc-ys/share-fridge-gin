@@ -23,6 +23,7 @@ func main() {
 	food := router.Group("/food")
 	{
 		food.GET("/:id", controller.ReadFood)
+        food.GET("", controller.ReadAllFood)
 		food.POST("", controller.CreateFood)
 	}
 
